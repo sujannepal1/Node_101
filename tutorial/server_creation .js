@@ -4,7 +4,12 @@ const http = require("http");
 //url does routing 
 const url = require("url");
 
-// Server 15 min routing
+//only runs once when it is logged once when we start the program and doesnt occur twice or thrice
+const productDataJson = fs.readFileSync(`${__dirname}/./node-farm-master/dev-data/data.json`, 'utf-8')
+const productData = JSON.parse(productDataJson);
+// res.writeHead(200, { 'content-type': 'application/json' })
+// res.end(data);
+
 
 const server = http.createServer((req, res) => {
     pathName = req.url
@@ -14,10 +19,8 @@ const server = http.createServer((req, res) => {
     } else if (pathName === "/product") {
         res.end("This is the product page")
     } else if (pathName === "/api") {
-        fs.readFile(`${__dirname}/./node-farm-master/dev-data/data.json`, 'utf-8', (err, data) => {
-            const productData = JSON.parse(data)
-            console.log(productData);
-        })
+        res.writeHead(200, { 'content-type': 'application/json' })
+        res.end(productDataJson);
     } else {
         res.writeHead(404);
         res.end("<h1>Error 404<h1>");
